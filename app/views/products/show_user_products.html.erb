@@ -1,0 +1,42 @@
+<h1><%= @user.first_name + " " + @user.last_name %></h1>
+<p id="user_id" hidden><%= @user.id %></p>
+<table id="the_table" class="table">
+  <thead>
+  <tr>
+    <th>Product Name</th>
+    <th>Product Price</th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+
+  </tbody>
+</table>
+
+<script>
+function addTableRow(product_name, product_price) {
+    var row = "<tr><td>" + product_name + "</td><td>$ " + product_price + "</td></tr>"
+    $("#the_table").append(row);
+}
+function makeApiCall() {
+    var url = "/api/user/" + $("#user_id").text() + "/products";
+    $.ajax({url: url, success:function (result) {
+            for (var i = 0; i < result.length; i++)
+            {
+                var row = result[i];
+                addTableRow(row["name"], row["price"])
+            }
+        },
+        error:function () {
+            
+        }
+
+    });
+}
+
+$(document).ready(function () {
+   makeApiCall();
+});
+
+</script>
